@@ -17,7 +17,7 @@
  * AI model files are NOT handled here: transformers.js stores those itself
  * (Cache Storage "transformers-cache"), so they're never stored twice.
  */
-const VERSION = '2026-10-12d';
+const VERSION = '2026-10-13a';
 const APP_CACHE = `app-${VERSION}`;
 
 const APP_FILES = [
