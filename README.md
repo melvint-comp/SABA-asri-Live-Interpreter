@@ -6,9 +6,9 @@
 
 **Speak in one language and see it translated into another - on your phone or computer.**
 
-## 👉 [Open the Translator](https://melvint-comp.github.io/SABA-asri-Live-Interpreter/) 👈
+## 👉 [Open the Translator](https://tinyurl.com/saba-asri-translator) 👈
 
-**Full Link: [https://melvint-comp.github.io/SABA-asri-Live-Interpreter/](https://melvint-comp.github.io/SABA-asri-Live-Interpreter/)**
+**Full Link: [https://tinyurl.com/saba-asri-translator](https://tinyurl.com/saba-asri-translator)**
 
 Nothing to install and no account needed. It works in your web browser - **and, once downloaded, with no internet at all.**
 
