@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="app/images/saba-asri-logo.png" alt="SABA asri Turtles Conservation" width="360">
+  <img src="app/images/saba-asri-logo.png" alt="Saba Asri Turtles Conservation" width="360">
 </p>
 
-# SABA asri Turtle Conservation - Live Interpreter
+# Saba Asri Turtle Conservation - Live Interpreter
 
 **Speak in one language and see it translated into another - on your phone or computer.**
 
