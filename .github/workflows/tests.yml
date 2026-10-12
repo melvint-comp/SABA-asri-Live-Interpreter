@@ -1,0 +1,40 @@
+# Runs the automated tests on every push and pull request.
+# (Publishing is handled by GitHub Pages "Deploy from a branch" — no workflow needed.)
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: developer
+
+jobs:
+  unit:
+    name: Unit tests & syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - run: node check-syntax.mjs
+      - run: npm test
+
+  e2e:
+    name: Browser tests (headless Chrome)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: developer/package-lock.json
+      - run: npm ci
+      - run: npm run test:e2e

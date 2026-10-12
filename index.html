@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="light">
+  <title>Live Interpreter · SABA asri Turtles Conservation</title>
+  <meta name="description" content="Speak English, French, German, Mandarin, Japanese or Indonesian and read it translated live - free, in your browser, on phone or computer. By SABA asri Turtles Conservation.">
+  <link rel="canonical" href="https://melvint-comp.github.io/SABA-asri-Live-Interpreter/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Live Interpreter · SABA asri">
+  <meta property="og:description" content="Speak, and see it translated - free, on your phone or computer.">
+  <meta property="og:url" content="https://melvint-comp.github.io/SABA-asri-Live-Interpreter/">
+  <meta property="og:image" content="https://melvint-comp.github.io/SABA-asri-Live-Interpreter/app/images/share.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="app/images/favicon.png">
+  <link rel="apple-touch-icon" href="app/images/touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="app/fonts/plus-jakarta-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="app/styles.css?v=2026-10-12d">
+  <script type="module" src="app/js/main.js?v=2026-10-12d"></script>
+  <script>
+    // A plain script: it runs even if the app's own code can't start.
+    (function () {
+      // Opened by double-clicking the file? Browsers block the microphone there,
+      // so explain what to do instead.
+      if (location.protocol === 'file:') {
+        document.addEventListener('DOMContentLoaded', function () {
+          document.getElementById('file-warning').hidden = false;
+          document.getElementById('app').hidden = true;
+        });
+        return;
+      }
+      if (!('serviceWorker' in navigator) || !window.isSecureContext) return;
+
+      // Keep the app on this device (offline use, one consistent version).
+      navigator.serviceWorker.register('sw.js').catch(function (err) {
+        console.warn('Offline app storage unavailable:', err);
+      });
+
+      // Self-repair: right after an update, the browser can mix the new page with
+      // old saved scripts, and the app fails to start. If that happens, reload once
+      // through the service worker, which always serves one complete version.
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          if (document.documentElement.dataset.started) return;
+          try {
+            if (sessionStorage.getItem('live-interpreter:repaired')) return;
+            sessionStorage.setItem('live-interpreter:repaired', '1');
+          } catch (e) { /* storage blocked: still try once */ }
+          navigator.serviceWorker.ready.then(function () { location.reload(); });
+        }, 1500);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <div id="file-warning" class="notice" hidden>
+    <img src="app/images/saba-asri-logo.png" alt="SABA asri Turtles Conservation" width="1410" height="649">
+    <h1>Please open the online version</h1>
+    <p>For safety, browsers only allow the microphone on real websites - not on files saved on your computer.</p>
+    <p><a class="button" href="https://melvint-comp.github.io/SABA-asri-Live-Interpreter/">Open the translator</a></p>
+    <p class="url">melvint-comp.github.io/SABA-asri-Live-Interpreter</p>
+  </div>
+
+  <div id="app">
+    <header class="hero">
+      <picture>
+        <source srcset="app/images/saba-asri-logo.webp" type="image/webp">
+        <img class="logo" src="app/images/saba-asri-logo.png" alt="SABA asri Turtles Conservation" width="1410" height="649">
+      </picture>
+      <h1>Live Interpreter</h1>
+      <p class="tagline">Speak, and see it translated.</p>
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path class="wave-line" fill="none" stroke="#ffffff" stroke-opacity=".35" d="M0 58 C 240 18, 520 18, 760 52 S 1240 96, 1440 40" />
+        <path class="wave-fill" fill="#ffffff" d="M0 92 C 280 46, 560 52, 820 80 S 1260 112, 1440 70 L1440 120 L0 120 Z" />
+      </svg>
+    </header>
+
+    <main>
+      <section class="panel" aria-label="Choose languages and start">
+        <div class="languages">
+          <label class="lang">
+            <span>I speak</span>
+            <select id="source"></select>
+          </label>
+          <button id="swap" type="button" class="swap" aria-label="Swap languages" title="Swap languages">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M7 7h11l-3-3m3 3-3 3M17 17H6l3 3m-3-3 3-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <label class="lang">
+            <span>Translate to</span>
+            <select id="target"></select>
+          </label>
+        </div>
+
+        <div class="controls">
+          <button id="record" type="button" class="mic" aria-pressed="false" aria-describedby="record-label">
+            <svg class="icon-mic" viewBox="0 0 24 24" width="38" height="38" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm6-3a6 6 0 0 1-12 0M12 18v3m-3 0h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="icon-stop" viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/></svg>
+            <span class="visually-hidden" id="record-text">Start listening</span>
+          </button>
+          <p id="record-label" class="mic-label">Tap to start</p>
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div id="offline" class="offline" data-state="checking">
+          <p id="offline-text" class="offline-text" aria-live="polite">Checking what's on this device…</p>
+          <button id="download" type="button" class="download" hidden>Download for offline use</button>
+          <div id="download-bar" class="bar" role="progressbar" aria-label="Download progress" aria-valuemin="0" aria-valuemax="100" hidden><span></span></div>
+        </div>
+      </section>
+
+      <section class="results" aria-label="Translations">
+        <div id="toolbar" class="toolbar" hidden>
+          <button id="copy" type="button" class="text-button">Copy all</button>
+          <button id="clear" type="button" class="text-button">Clear</button>
+        </div>
+        <p id="live" class="live" aria-live="off" hidden></p>
+        <ol id="phrases" class="phrases"></ol>
+        <p id="empty" class="empty">Your translations will appear here, newest first.</p>
+      </section>
+
+      <footer>
+        <p>Free, no sign-up, and nothing is saved.</p>
+        <p>To turn speech into text and translate it, your words may be sent to your browser's speech service (such as Google or Apple) and to a translation service.</p>
+        <p><a href="https://github.com/melvint-comp/SABA-asri-Live-Interpreter#readme">Help &amp; tips</a></p>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
